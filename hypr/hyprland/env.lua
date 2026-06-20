@@ -1,4 +1,9 @@
 local vars = require("variables")
+local home = os.getenv("HOME")
+
+-- Quickshell / caelestia-shell (manual clone, built to ~/.local)
+hl.env("QML2_IMPORT_PATH", home .. "/.local/lib/qt6/qml")
+hl.env("QML_IMPORT_PATH", home .. "/.local/lib/qt6/qml")
 
 -- Themes
 hl.env("QT_QPA_PLATFORMTHEME", "qtengine")
