@@ -13,48 +13,93 @@
             "key": "╭───────────────────────────────────╮"
         },
         {
-            "type": "kernel",
-            "key": "│ {$2}{$1}  kernel",
-            "format": "{$2}{release>22}{$1} │"
-        },
-        {
             "type": "command",
-            "key": "│   uptime",
-            "text": "uptime -p | cut -d ' ' -f 2-",
-            "format": "{>22} │"
-        },
-        {
-            "type": "shell",
-            "key": "│ {$2}{$1}  shell ",
-            "format": "{$2}{pretty-name>22}{$1} │"
-        },
-        {
-            "type": "command",
-            "key": "│ {$3}{$1}  mem   ",
-            "text": "free -m | awk 'NR==2{printf \"%.2f GiB / %.2f GiB\",$3/1024,$2/1024}'",
-            "format": "{$3}{>22}{$1} │"
-        },
-        {
-            "type": "packages",
-            "key": "│   pkgs  ",
-            "format": "{all>22} │"
-        },
-        {
-            "type": "command",
-            "key": "│ {$2}{$1}  user  ",
+            "key": "│ {$2}{$1}  user  ",
             "text": "echo $USER",
             "format": "{$2}{>22}{$1} │"
         },
         {
             "type": "command",
-            "key": "│   hname ",
+            "key": "│   hname ",
             "text": "hostnamectl hostname",
             "format": "{>22} │"
         },
         {
             "type": "os",
-            "key": "│ {$4}󰻀{$1}  distro",
+            "key": "│ {$4}0{$1}  distro",
             "format": "{$4}{pretty-name>22}{$1} │"
+        },
+        {
+            "type": "custom",
+            "key": "├───────────────────────────────────┤"
+        },
+        {
+            "type": "kernel",
+            "key": "│ {$2}{$1}  kernel",
+            "format": "{$2}{release>22}{$1} │"
+        },
+        {
+            "type": "command",
+            "key": "│   uptime",
+            "text": "uptime -p | cut -d ' ' -f 2-",
+            "format": "{>22} │"
+        },
+        {
+            "type": "shell",
+            "key": "│ {$2}{$1}  shell ",
+            "format": "{$2}{pretty-name>22}{$1} │"
+        },
+        {
+            "type": "custom",
+            "key": "├───────────────────────────────────┤"
+        },
+        {
+            "type": "command",
+            "key": "│ {$3}{$1}  cpu   ",
+            "text": "lscpu | awk -F': +' '/Model name/{print $2}' | sed 's/(R)//g;s/(TM)//g;s/ CPU @ .*//' | tr -s ' '",
+            "format": "{$3}{>22}{$1} │"
+        },
+        {
+            "type": "gpu",
+            "key": "│ {$3}{$1}  gpu   ",
+            "format": "{$3}{name>22}{$1} │"
+        },
+        {
+            "type": "command",
+            "key": "│ {$3}{$1}  mem   ",
+            "text": "free -m | awk 'NR==2{printf \"%.2f GiB / %.2f GiB\",$3/1024,$2/1024}'",
+            "format": "{$3}{>22}{$1} │"
+        },
+        {
+            "type": "command",
+            "key": "│   disk  ",
+            "text": "df -h --output=used,size,pcent / | tail -1 | awk '{print $1\" / \"$2\" (\"$3\")\"}' ",
+            "format": "{>22} │"
+        },
+        {
+            "type": "command",
+            "key": "│   batt  ",
+            "text": "b=/sys/class/power_supply/BAT0/uevent; [ -r \"$b\" ] && awk -F= '/^POWER_SUPPLY_CAPACITY=/{c=$2} /^POWER_SUPPLY_STATUS=/{s=tolower($2)} END{print c\"% \"s}' \"$b\" || echo 'AC power'",
+            "format": "{>22} │"
+        },
+        {
+            "type": "custom",
+            "key": "├───────────────────────────────────┤"
+        },
+        {
+            "type": "wm",
+            "key": "│ {$2}{$1}  wm    ",
+            "format": "{$2}{pretty-name>22}{$1} │"
+        },
+        {
+            "type": "terminal",
+            "key": "│ {$2}{$1}  term  ",
+            "format": "{$2}{pretty-name>22}{$1} │"
+        },
+        {
+            "type": "packages",
+            "key": "│   pkgs  ",
+            "format": "{all>22} │"
         },
         {
             "type": "custom",
