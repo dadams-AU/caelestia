@@ -38,6 +38,13 @@ hl.bind(
     hl.dsp.exec_cmd("qs -c caelestia kill; sleep .1; caelestia shell -d"),
     { release = true }
 )
+-- Emergency escape hatch: restart the shell even while the session is locked
+-- (compositor runs this, so it works even if the shell/lock surface is hung)
+hl.bind(
+    "CTRL + SUPER + ALT + BackSpace",
+    hl.dsp.exec_cmd("qs -c caelestia kill; sleep .3; caelestia shell -d"),
+    { release = true, locked = true }
+)
 
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
