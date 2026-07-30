@@ -32,19 +32,16 @@ hl.bind("XF86AudioPrev", hl.dsp.global("caelestia:mediaPrev"), { locked = true }
 hl.bind("XF86AudioStop", hl.dsp.global("caelestia:mediaStop"), { locked = true })
 
 -- Kill/restart
+-- Both restart binds go through restart-shell.sh, which waits for the old
+-- instance to actually exit before starting a new one. A fixed `sleep` raced
+-- lock teardown and left the session with no shell at all -- see the script.
+local restartShell = os.getenv("HOME") .. "/.config/hypr/scripts/restart-shell.sh"
+
 hl.bind("CTRL + SUPER + SHIFT + R", hl.dsp.exec_cmd("qs -c caelestia kill"), { release = true })
-hl.bind(
-    "CTRL + SUPER + ALT + R",
-    hl.dsp.exec_cmd("qs -c caelestia kill; sleep .1; caelestia shell -d"),
-    { release = true }
-)
+hl.bind("CTRL + SUPER + ALT + R", hl.dsp.exec_cmd(restartShell), { release = true })
 -- Emergency escape hatch: restart the shell even while the session is locked
 -- (compositor runs this, so it works even if the shell/lock surface is hung)
-hl.bind(
-    "CTRL + SUPER + ALT + BackSpace",
-    hl.dsp.exec_cmd("qs -c caelestia kill; sleep .3; caelestia shell -d"),
-    { release = true, locked = true }
-)
+hl.bind("CTRL + SUPER + ALT + BackSpace", hl.dsp.exec_cmd(restartShell), { release = true, locked = true })
 
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
