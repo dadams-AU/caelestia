@@ -6,9 +6,9 @@ return {
     ------------------
 
     -- Apps
-    terminal                   = "foot",
-    browser                    = "firefox",
-    editor                     = "codium",
+    terminal                   = "ghostty",
+    browser                    = "zen-browser",
+    editor                     = "code",
     fileExplorer               = "thunar",
     audioSettings              = "pavucontrol",
 
