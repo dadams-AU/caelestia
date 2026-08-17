@@ -56,13 +56,26 @@ create_bind(vars.kbSession, hl.dsp.global("caelestia:session"))
 create_bind(vars.kbShowSidebar, hl.dsp.global("caelestia:sidebar"))
 create_bind(vars.kbClearNotifs, hl.dsp.global("caelestia:clearNotifs"), locked)
 create_bind(vars.kbShowPanels, hl.dsp.global("caelestia:showall"))
-create_bind(vars.kbLock, hl.dsp.global("caelestia:lock"))
+-- thinkingdead runs hyprlock instead of the caelestia lock: quickshell#897
+-- keeps freezing the ScreencopyView lock on this dual-NVIDIA host. The restore
+-- bind is `locked` so it can reclaim Hyprland's fallback screen if the locker
+-- dies mid-lock. shell.json's idle timeout launches hyprlock on this host too.
+local hostname_file = io.open("/etc/hostname")
+local hostname = hostname_file and hostname_file:read("*l") or ""
+if hostname_file then hostname_file:close() end
 
--- Restore lock
-create_bind(vars.kbRestoreLock, function()
-    hl.dispatch(hl.dsp.exec_cmd("caelestia shell -d"))
-    hl.dispatch(hl.dsp.global("caelestia:lock"))
-end)
+if hostname == "thinkingdead" then
+    create_bind(vars.kbLock, hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
+    create_bind(vars.kbRestoreLock, hl.dsp.exec_cmd("pidof hyprlock || hyprlock"), locked)
+else
+    create_bind(vars.kbLock, hl.dsp.global("caelestia:lock"))
+
+    -- Restore lock
+    create_bind(vars.kbRestoreLock, function()
+        hl.dispatch(hl.dsp.exec_cmd("caelestia shell -d"))
+        hl.dispatch(hl.dsp.global("caelestia:lock"))
+    end)
+end
 
 -- Kill/restart
 -- Both restart binds go through restart-shell.sh, which waits for the old
