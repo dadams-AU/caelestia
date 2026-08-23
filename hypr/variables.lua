@@ -10,7 +10,7 @@ return {
     browser                    = "zen-browser",
     editor                     = "code",
     fileExplorer               = "thunar",
-    audioSettings              = "pavucontrol",
+    audioSettings              = "pwvucontrol",
 
     -- Touchpad
     touchpadDisableTyping      = true,
