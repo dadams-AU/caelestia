@@ -1,109 +1,131 @@
 {
-    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-    "logo": null,
+    "$schema": "https://raw.githubusercontent.com/fastfetch-cli/fastfetch/2.70.0/doc/json_schema.json",
+    "logo": {
+        "type": "data",
+        "source": "$1           /\\\n$1          /  \\\n$1         /    \\\n$1        /      \\\n$2       /   /\\   \\\n$2      /   /  \\   \\\n$2     /   /    \\   \\\n$2    /   /      \\   \\\n$3   /   /   /\\   \\   \\\n$3  /   /   /  \\   \\   \\\n$3 /___/   /    \\   \\___\\\n\n$2    A R C H   L I N U X\n$1       thinkingdead",
+        "color": {
+            "1": "cyan",
+            "2": "blue",
+            "3": "magenta"
+        },
+        "padding": {
+            "top": 3,
+            "left": 1,
+            "right": 2
+        },
+        "position": "auto"
+    },
     "display": {
         "separator": "  ",
-        "color": "white",
-        "constants": ["\u001b[37m", "\u001b[38;5;16m", "\u001b[38;5;17m", "\u001b[38;5;18m"]
+        "color": {
+            "keys": "cyan",
+            "title": "cyan"
+        },
+        "size": {
+            "ndigits": 1
+        },
+        "bar": {
+            "char": {
+                "elapsed": "\u2501",
+                "total": "\u2500"
+            },
+            "border": null,
+            "width": 10,
+            "color": {
+                "elapsed": "cyan",
+                "total": "bright_black"
+            }
+        },
+        "percent": {
+            "type": 3
+        },
+        "duration": {
+            "abbreviation": true
+        }
     },
     "modules": [
         "break",
         {
+            "type": "title",
+            "format": "{user-name-colored}{at-symbol-colored}{host-name-colored}"
+        },
+        {
             "type": "custom",
-            "key": "╭───────────────────────────────────╮"
+            "format": "{#bright_black}\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500{#}"
         },
         {
-            "type": "command",
-            "key": "│ {$2}{$1}  user  ",
-            "text": "echo $USER",
-            "format": "{$2}{>22}{$1} │"
-        },
-        {
-            "type": "command",
-            "key": "│   hname ",
-            "text": "hostnamectl hostname",
-            "format": "{>22} │"
+            "type": "custom",
+            "format": "{#magenta}\u256d\u2500 SYSTEM {#bright_black}\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500{#}"
         },
         {
             "type": "os",
-            "key": "│ {$4}0{$1}  distro",
-            "format": "{$4}{pretty-name>22}{$1} │"
-        },
-        {
-            "type": "custom",
-            "key": "├───────────────────────────────────┤"
+            "key": "\u2502 OS      ",
+            "format": "{pretty-name}"
         },
         {
             "type": "kernel",
-            "key": "│ {$2}{$1}  kernel",
-            "format": "{$2}{release>22}{$1} │"
+            "key": "\u2502 Kernel  ",
+            "format": "{release}"
         },
         {
-            "type": "command",
-            "key": "│   uptime",
-            "text": "uptime -p | cut -d ' ' -f 2-",
-            "format": "{>22} │"
-        },
-        {
-            "type": "shell",
-            "key": "│ {$2}{$1}  shell ",
-            "format": "{$2}{pretty-name>22}{$1} │"
-        },
-        {
-            "type": "custom",
-            "key": "├───────────────────────────────────┤"
-        },
-        {
-            "type": "command",
-            "key": "│ {$3}{$1}  cpu   ",
-            "text": "lscpu | awk -F': +' '/Model name/{print $2}' | sed 's/(R)//g;s/(TM)//g;s/ CPU @ .*//' | tr -s ' '",
-            "format": "{$3}{>22}{$1} │"
-        },
-        {
-            "type": "gpu",
-            "key": "│ {$3}{$1}  gpu   ",
-            "format": "{$3}{name>22}{$1} │"
-        },
-        {
-            "type": "command",
-            "key": "│ {$3}{$1}  mem   ",
-            "text": "free -m | awk 'NR==2{printf \"%.2f GiB / %.2f GiB\",$3/1024,$2/1024}'",
-            "format": "{$3}{>22}{$1} │"
-        },
-        {
-            "type": "command",
-            "key": "│   disk  ",
-            "text": "df -h --output=used,size,pcent / | tail -1 | awk '{print $1\" / \"$2\" (\"$3\")\"}' ",
-            "format": "{>22} │"
-        },
-        {
-            "type": "command",
-            "key": "│   batt  ",
-            "text": "b=/sys/class/power_supply/BAT0/uevent; [ -r \"$b\" ] && awk -F= '/^POWER_SUPPLY_CAPACITY=/{c=$2} /^POWER_SUPPLY_STATUS=/{s=tolower($2)} END{print c\"% \"s}' \"$b\" || echo 'AC power'",
-            "format": "{>22} │"
-        },
-        {
-            "type": "custom",
-            "key": "├───────────────────────────────────┤"
-        },
-        {
-            "type": "wm",
-            "key": "│ {$2}{$1}  wm    ",
-            "format": "{$2}{pretty-name>22}{$1} │"
-        },
-        {
-            "type": "terminal",
-            "key": "│ {$2}{$1}  term  ",
-            "format": "{$2}{pretty-name>22}{$1} │"
+            "type": "uptime",
+            "key": "\u2502 Uptime  "
         },
         {
             "type": "packages",
-            "key": "│   pkgs  ",
-            "format": "{all>22} │"
+            "key": "\u2502 Packages",
+            "format": "{all} installed"
+        },
+        {
+            "type": "shell",
+            "key": "\u2502 Shell   "
+        },
+        "break",
+        {
+            "type": "custom",
+            "format": "{#magenta}\u251c\u2500 HARDWARE {#bright_black}\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500{#}"
+        },
+        {
+            "type": "cpu",
+            "key": "\u2502 CPU     ",
+            "format": "{name} \u00b7 {cores-physical}C/{cores-logical}T"
+        },
+        {
+            "type": "gpu",
+            "key": "\u2502 GPU     ",
+            "format": "{name}"
+        },
+        {
+            "type": "memory",
+            "key": "\u2502 RAM     ",
+            "format": "{percentage-bar} {used} / {total} ({percentage})"
+        },
+        {
+            "type": "disk",
+            "key": "\u2502 Root    ",
+            "folders": "/",
+            "format": "{size-percentage-bar} {size-used} / {size-total} ({size-percentage})"
+        },
+        "break",
+        {
+            "type": "custom",
+            "format": "{#magenta}\u251c\u2500 DESKTOP {#bright_black}\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500{#}"
+        },
+        {
+            "type": "wm",
+            "key": "\u2502 WM      "
+        },
+        {
+            "type": "terminal",
+            "key": "\u2502 Terminal"
         },
         {
             "type": "custom",
-            "key": "╰───────────────────────────────────╯"
+            "format": "{#magenta}\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500{#}"
+        },
+        {
+            "type": "custom",
+            "format": "{#cyan}\u25cf {#blue}\u25cf {#magenta}\u25cf {#green}\u25cf {#yellow}\u25cf {#red}\u25cf{#}"
         },
         "break"
     ]
