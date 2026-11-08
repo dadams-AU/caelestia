@@ -1,13 +1,8 @@
 {
     "$schema": "https://raw.githubusercontent.com/fastfetch-cli/fastfetch/2.70.0/doc/json_schema.json",
     "logo": {
-        "type": "data",
-        "source": "$1           /\\\n$1          /  \\\n$1         /    \\\n$1        /      \\\n$2       /   /\\   \\\n$2      /   /  \\   \\\n$2     /   /    \\   \\\n$2    /   /      \\   \\\n$3   /   /   /\\   \\   \\\n$3  /   /   /  \\   \\   \\\n$3 /___/   /    \\   \\___\\\n\n$2    A R C H   L I N U X\n$1       thinkingdead",
-        "color": {
-            "1": "cyan",
-            "2": "blue",
-            "3": "magenta"
-        },
+        "type": "command-raw",
+        "source": "printf '\\033[36m%s\\n' '           /\\' '          /  \\' '         /    \\' '        /      \\'; printf '\\033[34m%s\\n' '       /   /\\   \\' '      /   /  \\   \\' '     /   /    \\   \\' '    /   /      \\   \\'; printf '\\033[35m%s\\n' '   /   /   /\\   \\   \\' '  /   /   /  \\   \\   \\' ' /___/   /    \\   \\___\\'; printf '\\n\\033[34m    A R C H   L I N U X\\n\\033[36m       %s' \"$(uname -n)\"",
         "padding": {
             "top": 3,
             "left": 1,
