@@ -6,9 +6,11 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("gnome-keyring-daemon --start --components=secrets")
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
 
-    -- Clipboard history
-    hl.exec_cmd("wl-paste --type text --watch cliphist store")
-    hl.exec_cmd("wl-paste --type image --watch cliphist store")
+    -- Clipboard history. wl-paste waits for each store to exit, and a store
+    -- waits for EOF from the source app, so one app that never closes its end
+    -- of the pipe stops all capture; the timeout bounds that to a single clip.
+    hl.exec_cmd("wl-paste --type text --watch timeout 10 cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch timeout 10 cliphist store")
 
     -- Auto delete trash 30 days old
     hl.exec_cmd("trash-empty 30")
