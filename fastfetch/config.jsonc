@@ -101,6 +101,11 @@
             "folders": "/",
             "format": "{size-percentage-bar} {size-used} / {size-total} ({size-percentage})"
         },
+        {
+            "type": "battery",
+            "key": "│ Battery ",
+            "format": "{capacity-bar} {capacity} · {status}"
+        },
         "break",
         {
             "type": "custom",
