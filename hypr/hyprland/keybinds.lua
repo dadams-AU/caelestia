@@ -64,9 +64,10 @@ create_bind(vars.kbSession, hl.dsp.global("caelestia:session"))
 create_bind(vars.kbShowSidebar, hl.dsp.global("caelestia:sidebar"))
 create_bind(vars.kbClearNotifs, hl.dsp.global("caelestia:clearNotifs"), locked)
 create_bind(vars.kbShowPanels, hl.dsp.global("caelestia:showall"))
--- thinkingdead and runningdead run hyprlock instead of the caelestia lock.
--- thinkingdead moved first: quickshell#897 keeps freezing the ScreencopyView
--- lock on that dual-NVIDIA host. runningdead followed on 2026-11-05. The
+-- All three hosts run hyprlock instead of the caelestia lock. thinkingdead
+-- moved first: quickshell#897 keeps freezing the ScreencopyView lock on that
+-- dual-NVIDIA host. runningdead followed on 2026-11-05 and travelingdead on
+-- 2026-11-14. A host without hyprlock installed keeps the caelestia lock. The
 -- restore bind is `locked` so it can reclaim Hyprland's fallback screen if the
 -- locker dies mid-lock. shell.json's idle timeout launches hyprlock on these
 -- hosts too.
@@ -74,9 +75,11 @@ local hostname_file = io.open("/etc/hostname")
 local hostname = hostname_file and hostname_file:read("*l") or ""
 if hostname_file then hostname_file:close() end
 
-local hyprlock_hosts = { thinkingdead = true, runningdead = true }
+local hyprlock_hosts = { thinkingdead = true, runningdead = true, travelingdead = true }
+local hyprlock_bin = io.open("/usr/bin/hyprlock")
+if hyprlock_bin then hyprlock_bin:close() end
 
-if hyprlock_hosts[hostname] then
+if hyprlock_hosts[hostname] and hyprlock_bin then
     create_bind(vars.kbLock, hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
     create_bind(vars.kbRestoreLock, hl.dsp.exec_cmd("pidof hyprlock || hyprlock"), locked)
 else
