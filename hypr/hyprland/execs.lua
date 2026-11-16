@@ -27,6 +27,14 @@ hl.on("hyprland.start", function()
     -- Forward bluetooth media commands to MPRIS
     hl.exec_cmd("mpris-proxy")
 
+    -- Lock with hyprlock before suspend, on the laptop only (see hypridle.conf)
+    local hostname_file = io.open("/etc/hostname")
+    local hostname = hostname_file and hostname_file:read("*l") or ""
+    if hostname_file then hostname_file:close() end
+    if hostname == "travelingdead" then
+        hl.exec_cmd("hypridle")
+    end
+
     -- Start shell
     hl.exec_cmd("caelestia shell -d")
 end)

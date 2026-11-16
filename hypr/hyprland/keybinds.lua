@@ -70,7 +70,7 @@ create_bind(vars.kbShowPanels, hl.dsp.global("caelestia:showall"))
 -- 2026-11-14. A host without hyprlock installed keeps the caelestia lock. The
 -- restore bind is `locked` so it can reclaim Hyprland's fallback screen if the
 -- locker dies mid-lock. shell.json's idle timeout launches hyprlock on these
--- hosts too.
+-- hosts too, and on travelingdead hypridle launches it before suspend.
 local hostname_file = io.open("/etc/hostname")
 local hostname = hostname_file and hostname_file:read("*l") or ""
 if hostname_file then hostname_file:close() end
